@@ -1,0 +1,52 @@
+
+/*grant all privileges on *.* to 'scott'@'localhost' identified by 'tiger';*/
+
+drop database if exists finalprojectdb;
+create database finalprojectdb;
+use finalprojectdb;
+
+
+drop table if exists Trader;
+create table Trader (
+  username varchar(50) not null,
+  password int(50) not null,
+  firstName varchar(50) not null,
+  lastName varchar(50) not null,
+  bankSecret varchar(10) not null,
+  bankAccountId int(10) not null,
+  email varchar(50),
+  phone varchar(50),
+  accountYield varchar(10) default '0%',
+  primary key (username)
+);
+
+
+drop table if exists Transaction;
+create table Transaction (
+  transactionID int(20) not null auto_increment,
+  openingDate dateTime,
+  traderUsername varchar(50),
+  foreign key (traderUsername) references Trader(username),
+  orderCode int(20) not null,
+  stockName varchar(50) not null,
+  amount int(20) not null,
+  price int(20) not null,
+  transactionType varchar(50) not null,
+  transactionState varchar(50) not null,
+  closingDate dateTime,
+  profit int(20),
+  pointBasedAccountValue int(20),
+  primary key (transactionID)
+);
+
+
+drop table if exists PurchasedAndOwnedStocks;
+create table PurchasedAndOwnedStocks (
+  stockID int(20) not null auto_increment,
+  traderUsername varchar(50),
+  foreign key (traderUsername) references Trader(username),
+  stockName varchar(50) not null,
+  price int(20) not null,
+  primary key (stockID)
+);
+
